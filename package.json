@@ -8,7 +8,8 @@
   },
   "scripts": {
     "pretest": "standard",
-    "test": "nyc ava"
+    "test": "nyc ava",
+    "release": "standard-version"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/nexdrew/rekcod/issues"
   },
-  "homepage": "https://github.com/nexdrew/rekcod#readme"
+  "homepage": "https://github.com/nexdrew/rekcod#readme",
+  "devDependencies": {
+    "standard-version": "^2.1.2"
+  }
 }
