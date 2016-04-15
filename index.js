@@ -70,11 +70,13 @@ function shortHash (hash) {
 }
 
 function toRunCommand (inspectObj, name) {
-  let rc = 'docker run -d'
+  let rc = 'docker run'
+  if (inspectObj.Args) rc = appendJoinedArray(rc, null, inspectObj.Args, ' ')
   rc = append(rc, '--name', name)
 
   let hostcfg = inspectObj.HostConfig || {}
   rc = appendArray(rc, '-v', hostcfg.Binds)
+  rc = appendArray(rc, '--volumes-from', hostcfg.VolumesFrom)
   if (hostcfg.PortBindings) {
     rc = appendObjectKeys(rc, '-p', hostcfg.PortBindings, (ipPort) => {
       return ipPort.HostIp ? ipPort.HostIp + ':' + ipPort.HostPort : ipPort.HostPort
@@ -104,6 +106,7 @@ function toRunCommand (inspectObj, name) {
   rc = appendArray(rc, '-e', cfg.Env, (env) => {
     return /\s/g.test(env) ? '"' + env + '"' : env
   })
+  rc = appendConfigBooleans(rc, cfg)
   if (cfg.Entrypoint) rc = appendJoinedArray(rc, '--entrypoint', cfg.Entrypoint, ' ')
 
   rc = rc + ' ' + (cfg.Image || inspectObj.Image)
@@ -111,6 +114,23 @@ function toRunCommand (inspectObj, name) {
   if (cfg.Cmd) rc = appendJoinedArray(rc, null, cfg.Cmd, ' ')
 
   return rc
+}
+
+function appendConfigBooleans (str, cfg) {
+  let stdin = cfg.AttachStdin === true
+  let stdout = cfg.AttachStdout === true
+  let stderr = cfg.AttachStderr === true
+  str = appendBoolean(str, !stdin && !stdout && !stderr, '-d')
+  str = appendBoolean(str, stdin, '-a', 'stdin')
+  str = appendBoolean(str, stdout, '-a', 'stdout')
+  str = appendBoolean(str, stderr, '-a', 'stderr')
+  str = appendBoolean(str, cfg.Tty === true, '-t')
+  str = appendBoolean(str, cfg.OpenStdin === true, '-i')
+  return str
+}
+
+function appendBoolean (str, bool, key, val) {
+  return bool ? (val ? append(str, key, val) : str + ' ' + key) : str
 }
 
 function appendJoinedArray (str, key, array, join) {
