@@ -66,6 +66,7 @@ rekcod(['another-name', '6653931e39f2', 'happy_torvalds'], (err, run) => {
 | ---------------------------- | ---------------- |
 | `Name`                       | `--name`         |
 | `HostConfig.Binds`           | `-v`             |
+| `HostConfig.VolumesFrom`     | `--volumes-from` |
 | `HostConfig.PortBindings`    | `-p`             |
 | `HostConfig.Links`           | `--link`         |
 | `HostConfig.PublishAllPorts` | `-P`             |
@@ -74,8 +75,16 @@ rekcod(['another-name', '6653931e39f2', 'happy_torvalds'], (err, run) => {
 | `Config.Hostname`            | `-h`             |
 | `Config.ExposedPorts`        | `--expose`       |
 | `Config.Env`                 | `-e`             |
+| `Config.Attach`* === false   | `-d`             |
+| `Config.AttachStdin`         | `-a stdin`       |
+| `Config.AttachStdout`        | `-a stdout`      |
+| `Config.AttachStderr`        | `-a stderr`      |
+| `Config.Tty`                 | `-t`             |
+| `Config.OpenStdin`           | `-i`             |
 | `Config.Entrypoint`          | `--entrypoint`   |
 | `Config.Image || Image`      | image name or id |
 | `Config.Cmd`                 | command and args |
 
-Also, `rekcod` assumes `-d` to run the container in detached/background mode.
+## License
+
+ISC © Contributors
