@@ -70,9 +70,7 @@ function shortHash (hash) {
 }
 
 function toRunCommand (inspectObj, name) {
-  let rc = 'docker run'
-  if (inspectObj.Args) rc = appendJoinedArray(rc, null, inspectObj.Args, ' ')
-  rc = append(rc, '--name', name)
+  let rc = append('docker run', '--name', name)
 
   let hostcfg = inspectObj.HostConfig || {}
   rc = appendArray(rc, '-v', hostcfg.Binds)
