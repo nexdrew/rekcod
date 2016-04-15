@@ -2,6 +2,8 @@
 
 > docker inspect → docker run
 
+[![Standard Version](https://img.shields.io/badge/release-standard%20version-brightgreen.svg)](https://github.com/conventional-changelog/standard-version)
+
 A simple module to reverse engineer a `docker run` command from an existing container (via `docker inspect`). Just pass in the container names or ids that you want to reverse engineer and `rekcod` will output a `docker run` command that duplicates the container.
 
 This is not super robust, but it should hopefully cover most arguments needed.
