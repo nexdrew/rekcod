@@ -6,7 +6,7 @@
 
 A simple module to reverse engineer a `docker run` command from an existing container (via `docker inspect`). Just pass in the container names or ids that you want to reverse engineer and `rekcod` will output a `docker run` command that duplicates the container.
 
-This is not super robust, but it should hopefully cover most arguments needed.
+This is not super robust, but it should hopefully cover most arguments needed. See [Fields Supported](#fields-supported) below.
 
 This module calls `docker inspect` directly, and the user running it should be able to as well.
 
@@ -24,18 +24,23 @@ $ npm i -g rekcod
 # single container
 $ rekcod container-name
 
-docker run -d --name container-name ...
+docker run --name container-name ...
 ```
 
 ```sh
 # multiple containers
 $ rekcod another-name 6653931e39f2 happy_torvalds
 
-docker run -d --name another-name ...
+docker run --name another-name ...
 
-docker run -d --name stinky_jones ...
+docker run --name stinky_jones ...
 
-docker run -d --name happy_torvalds ...
+docker run --name happy_torvalds ...
+```
+
+```sh
+# all containers!
+$ sudo rekcod $(sudo docker ps -aq)
 ```
 
 ### Module
@@ -77,7 +82,7 @@ rekcod(['another-name', '6653931e39f2', 'happy_torvalds'], (err, run) => {
 | `Config.Hostname`            | `-h`             |
 | `Config.ExposedPorts`        | `--expose`       |
 | `Config.Env`                 | `-e`             |
-| `Config.Attach`* === false   | `-d`             |
+| `Config.Attach`* !== true    | `-d`             |
 | `Config.AttachStdin`         | `-a stdin`       |
 | `Config.AttachStdout`        | `-a stdout`      |
 | `Config.AttachStderr`        | `-a stderr`      |
@@ -86,6 +91,8 @@ rekcod(['another-name', '6653931e39f2', 'happy_torvalds'], (err, run) => {
 | `Config.Entrypoint`          | `--entrypoint`   |
 | `Config.Image || Image`      | image name or id |
 | `Config.Cmd`                 | command and args |
+
+Prior to version 0.2.0, `rekcod` always assumed `-d` for detached mode, but it now uses that only when all stdio options are not attached. I believe this is the correct behavior, but let me know if it causes you problems. A side effect of this is that the `-d` shows up much later in the `docker run` command than it used to, but it will still be there. ❤
 
 ## License
 
