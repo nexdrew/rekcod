@@ -79,6 +79,7 @@ rekcod(['another-name', '6653931e39f2', 'happy_torvalds'], (err, run) => {
 | `HostConfig.PublishAllPorts` | `-P`             |
 | `HostConfig.NetworkMode`     | `--net`          |
 | `HostConfig.RestartPolicy`   | `--restart`      |
+| `HostConfig.ExtraHosts`      | `--add-host`     |
 | `Config.Hostname`            | `-h`             |
 | `Config.ExposedPorts`        | `--expose`       |
 | `Config.Env`                 | `-e`             |
