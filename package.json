@@ -6,6 +6,10 @@
   "bin": {
     "rekcod": "cli.js"
   },
+  "files": [
+    "cli.js",
+    "index.js"
+  ],
   "scripts": {
     "pretest": "standard",
     "test": "nyc tape test/test*.js",
