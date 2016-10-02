@@ -1,0 +1,6 @@
+docker: "inspect" requires a minimum of 1 argument.
+See 'docker inspect --help'.
+
+Usage:	docker inspect [OPTIONS] CONTAINER|IMAGE|TASK [CONTAINER|IMAGE|TASK...]
+
+Return low-level information on a container, image or task

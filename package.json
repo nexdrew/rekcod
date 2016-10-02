@@ -8,7 +8,7 @@
   },
   "scripts": {
     "pretest": "standard",
-    "test": "nyc ava",
+    "test": "nyc tape test/test*.js",
     "release": "standard-version"
   },
   "repository": {
@@ -27,6 +27,9 @@
   },
   "homepage": "https://github.com/nexdrew/rekcod#readme",
   "devDependencies": {
-    "standard-version": "^2.1.2"
+    "nyc": "^8.3.0",
+    "standard": "^8.3.0",
+    "standard-version": "^2.4.0",
+    "tape": "^4.6.2"
   }
 }

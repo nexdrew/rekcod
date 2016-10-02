@@ -1,11 +1,12 @@
 'use strict'
 
-const child_process = require("child_process")
+const childProcess = require('child_process')
 
 module.exports = function (containers, cb) {
   let cbCalled = false
-  let stdout = [], stderr = []
-  let child = child_process.spawn('docker', ['inspect'].concat(containers))
+  let stdout = []
+  let stderr = []
+  let child = childProcess.spawn('docker', ['inspect'].concat(containers))
   child.stderr.on('data', (data) => {
     stderr.push(data)
   })

@@ -1,0 +1,406 @@
+[
+  {
+    "Id": "9c397236341e1e45702d3168e5d8ae1f9bb89c2faf83f44de350f698a5469c79",
+    "Created": "2016-10-01T21:39:34.257638774Z",
+    "Path": "/etc/npme/start.sh",
+    "Args": [
+      "-g"
+    ],
+    "State": {
+      "Status": "running",
+      "Running": true,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 4608,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2016-10-01T21:39:35.339305242Z",
+      "FinishedAt": "0001-01-01T00:00:00Z"
+    },
+    "Image": "sha256:a6c71b3e8fb33c8a3e1501f497915af8057d5da84fc4560b720d350eff38318d",
+    "ResolvConfPath": "/var/lib/docker/containers/9c397236341e1e45702d3168e5d8ae1f9bb89c2faf83f44de350f698a5469c79/resolv.conf",
+    "HostnamePath": "/var/lib/docker/containers/9c397236341e1e45702d3168e5d8ae1f9bb89c2faf83f44de350f698a5469c79/hostname",
+    "HostsPath": "/var/lib/docker/containers/9c397236341e1e45702d3168e5d8ae1f9bb89c2faf83f44de350f698a5469c79/hosts",
+    "LogPath": "/var/lib/docker/containers/9c397236341e1e45702d3168e5d8ae1f9bb89c2faf83f44de350f698a5469c79/9c397236341e1e45702d3168e5d8ae1f9bb89c2faf83f44de350f698a5469c79-json.log",
+    "Name": "/project_service_1",
+    "RestartCount": 0,
+    "Driver": "aufs",
+    "MountLabel": "",
+    "ProcessLabel": "",
+    "AppArmorProfile": "",
+    "ExecIDs": null,
+    "HostConfig": {
+      "Binds": [
+        "/var/lib/replicated:/var/lib/replicated",
+        "/proc:/host/proc:ro"
+      ],
+      "ContainerIDFile": "",
+      "LogConfig": {
+        "Type": "json-file",
+        "Config": {}
+      },
+      "NetworkMode": "host",
+      "PortBindings": {
+        "4700/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "4700"
+          }
+        ],
+        "4702/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "4702"
+          }
+        ]
+      },
+      "RestartPolicy": {
+        "Name": "on-failure",
+        "MaximumRetryCount": 5
+      },
+      "AutoRemove": false,
+      "VolumeDriver": "",
+      "VolumesFrom": [],
+      "CapAdd": null,
+      "CapDrop": null,
+      "Dns": null,
+      "DnsOptions": null,
+      "DnsSearch": null,
+      "ExtraHosts": [
+        "xyz:1.2.3.4",
+        "abc:5.6.7.8"
+      ],
+      "GroupAdd": null,
+      "IpcMode": "",
+      "Cgroup": "",
+      "Links": [
+        "/project_postgres_1:/project_service_1/postgres",
+        "/project_rrservice_1:/project_service_1/project_rrservice_1"
+      ],
+      "OomScoreAdj": 0,
+      "PidMode": "",
+      "Privileged": false,
+      "PublishAllPorts": true,
+      "ReadonlyRootfs": false,
+      "SecurityOpt": null,
+      "UTSMode": "",
+      "UsernsMode": "",
+      "ShmSize": 67108864,
+      "Runtime": "runc",
+      "ConsoleSize": [
+        0,
+        0
+      ],
+      "Isolation": "",
+      "CpuShares": 0,
+      "Memory": 0,
+      "CgroupParent": "",
+      "BlkioWeight": 0,
+      "BlkioWeightDevice": null,
+      "BlkioDeviceReadBps": null,
+      "BlkioDeviceWriteBps": null,
+      "BlkioDeviceReadIOps": null,
+      "BlkioDeviceWriteIOps": null,
+      "CpuPeriod": 0,
+      "CpuQuota": 0,
+      "CpusetCpus": "",
+      "CpusetMems": "",
+      "Devices": null,
+      "DiskQuota": 0,
+      "KernelMemory": 0,
+      "MemoryReservation": 0,
+      "MemorySwap": 0,
+      "MemorySwappiness": -1,
+      "OomKillDisable": false,
+      "PidsLimit": 0,
+      "Ulimits": null,
+      "CpuCount": 0,
+      "CpuPercent": 0,
+      "IOMaximumIOps": 0,
+      "IOMaximumBandwidth": 0
+    },
+    "GraphDriver": {
+      "Name": "aufs",
+      "Data": null
+    },
+    "Mounts": [],
+    "Config": {
+      "Hostname": "9c397236341e",
+      "Domainname": "",
+      "User": "",
+      "AttachStdin": false,
+      "AttachStdout": false,
+      "AttachStderr": false,
+      "ExposedPorts": {
+        "4700/tcp": {},
+        "4702/tcp": {}
+      },
+      "Tty": false,
+      "OpenStdin": false,
+      "StdinOnce": false,
+      "Env": [
+        "DB_USER=postgres",
+        "no_proxy=*.local, 169.254/16"
+      ],
+      "Cmd": [
+        "/etc/npme/start.sh",
+        "-g"
+      ],
+      "Image": "project_service",
+      "Volumes": null,
+      "WorkingDir": "/etc/npme",
+      "Entrypoint": [
+        "tini",
+        "--",
+        "/docker-entrypoint.sh"
+      ],
+      "OnBuild": null,
+      "Labels": {
+        "com.docker.compose.config-hash": "9f94e0df059d6b68fa0e306b9ee555b4fb9d6dbdb3982a0b0f6c7adca2945f26",
+        "com.docker.compose.container-number": "1",
+        "com.docker.compose.oneoff": "False",
+        "com.docker.compose.project": "project",
+        "com.docker.compose.service": "service",
+        "com.docker.compose.version": "1.8.0"
+      }
+    },
+    "NetworkSettings": {
+      "Bridge": "",
+      "SandboxID": "8dc1bc73503c8e1e36df101bdd365a7a6ba3284159d2d9fbe83caa8cdeeacff3",
+      "HairpinMode": false,
+      "LinkLocalIPv6Address": "",
+      "LinkLocalIPv6PrefixLen": 0,
+      "Ports": {
+        "4700/tcp": [
+          {
+            "HostIp": "0.0.0.0",
+            "HostPort": "4700"
+          }
+        ],
+        "4702/tcp": [
+          {
+            "HostIp": "0.0.0.0",
+            "HostPort": "4702"
+          }
+        ]
+      },
+      "SandboxKey": "/var/run/docker/netns/8dc1bc73503c",
+      "SecondaryIPAddresses": null,
+      "SecondaryIPv6Addresses": null,
+      "EndpointID": "571dccdf8fa4ad85884a5b9f5cfba56af385ca13e06c72374d0c62475e922e6b",
+      "Gateway": "172.17.0.1",
+      "GlobalIPv6Address": "",
+      "GlobalIPv6PrefixLen": 0,
+      "IPAddress": "172.17.0.12",
+      "IPPrefixLen": 16,
+      "IPv6Gateway": "",
+      "MacAddress": "02:42:ac:11:00:0c",
+      "Networks": {
+        "bridge": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "NetworkID": "72eb90354bbd39f08e67088ad1fd88245b67eb95ca7dbf57b2717c75d1449dbf",
+          "EndpointID": "571dccdf8fa4ad85884a5b9f5cfba56af385ca13e06c72374d0c62475e922e6b",
+          "Gateway": "172.17.0.1",
+          "IPAddress": "172.17.0.12",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "MacAddress": "02:42:ac:11:00:0c"
+        }
+      }
+    }
+  },
+  {
+    "Id": "46d567b",
+    "Created": "2016-10-02T02:34:20.126539319Z",
+    "Path": "/hello",
+    "Args": [],
+    "State": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2016-10-02T02:34:20.60324311Z",
+      "FinishedAt": "2016-10-02T02:34:20.660511976Z"
+    },
+    "Image": "sha256:c54a2cc56cbb2f04003c1cd4507e118af7c0d340fe7e2720f70976c4b75237dc",
+    "ResolvConfPath": "/mnt/docker/containers/46d567b2ef86a959c7e4d01a4b4acb2f379f340c0106a92285a0ddf0bbf88811/resolv.conf",
+    "HostnamePath": "/mnt/docker/containers/46d567b2ef86a959c7e4d01a4b4acb2f379f340c0106a92285a0ddf0bbf88811/hostname",
+    "HostsPath": "/mnt/docker/containers/46d567b2ef86a959c7e4d01a4b4acb2f379f340c0106a92285a0ddf0bbf88811/hosts",
+    "LogPath": "/mnt/docker/containers/46d567b2ef86a959c7e4d01a4b4acb2f379f340c0106a92285a0ddf0bbf88811/46d567b2ef86a959c7e4d01a4b4acb2f379f340c0106a92285a0ddf0bbf88811-json.log",
+    "Name": "/hello",
+    "RestartCount": 0,
+    "Driver": "aufs",
+    "MountLabel": "",
+    "ProcessLabel": "",
+    "AppArmorProfile": "",
+    "ExecIDs": null,
+    "HostConfig": {
+      "Binds": null,
+      "ContainerIDFile": "",
+      "LogConfig": {
+        "Type": "json-file",
+        "Config": {}
+      },
+      "NetworkMode": "default",
+      "PortBindings": {},
+      "RestartPolicy": {
+        "Name": "no",
+        "MaximumRetryCount": 0
+      },
+      "AutoRemove": false,
+      "VolumeDriver": "",
+      "VolumesFrom": [
+        "admiring_brown",
+        "silly_jang"
+      ],
+      "CapAdd": null,
+      "CapDrop": null,
+      "Dns": [],
+      "DnsOptions": [],
+      "DnsSearch": [],
+      "ExtraHosts": null,
+      "GroupAdd": null,
+      "IpcMode": "",
+      "Cgroup": "",
+      "Links": null,
+      "OomScoreAdj": 0,
+      "PidMode": "",
+      "Privileged": false,
+      "PublishAllPorts": false,
+      "ReadonlyRootfs": false,
+      "SecurityOpt": null,
+      "StorageOpt": null,
+      "UTSMode": "",
+      "UsernsMode": "",
+      "ShmSize": 67108864,
+      "ConsoleSize": [
+        0,
+        0
+      ],
+      "Isolation": "",
+      "CpuShares": 0,
+      "Memory": 0,
+      "CgroupParent": "",
+      "BlkioWeight": 0,
+      "BlkioWeightDevice": null,
+      "BlkioDeviceReadBps": null,
+      "BlkioDeviceWriteBps": null,
+      "BlkioDeviceReadIOps": null,
+      "BlkioDeviceWriteIOps": null,
+      "CpuPeriod": 0,
+      "CpuQuota": 0,
+      "CpusetCpus": "",
+      "CpusetMems": "",
+      "Devices": [],
+      "DiskQuota": 0,
+      "KernelMemory": 0,
+      "MemoryReservation": 0,
+      "MemorySwap": 0,
+      "MemorySwappiness": -1,
+      "OomKillDisable": false,
+      "PidsLimit": 0,
+      "Ulimits": null,
+      "CpuCount": 0,
+      "CpuPercent": 0,
+      "BlkioIOps": 0,
+      "BlkioBps": 0,
+      "SandboxSize": 0
+    },
+    "GraphDriver": {
+      "Name": "aufs",
+      "Data": null
+    },
+    "Mounts": [
+      {
+        "Source": "/mnt/couchdb",
+        "Destination": "/usr/local/var/lib/couchdb",
+        "Mode": "",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Source": "/var/lib/replicated-operator/e3e076ef87c34eca632dc87455961737/usr/local/etc/couchdb/local.ini",
+        "Destination": "/usr/local/etc/couchdb/local.ini",
+        "Mode": "",
+        "RW": true,
+        "Propagation": "rprivate"
+      },
+      {
+        "Source": "/mnt/redis",
+        "Destination": "/data",
+        "Mode": "",
+        "RW": true,
+        "Propagation": "rprivate"
+      }
+    ],
+    "Config": {
+      "Hostname": "46d567b2ef86",
+      "Domainname": "",
+      "User": "",
+      "AttachStdin": false,
+      "AttachStdout": true,
+      "AttachStderr": true,
+      "Tty": true,
+      "OpenStdin": true,
+      "StdinOnce": false,
+      "Env": [
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      ],
+      "Cmd": [
+        "/hello"
+      ],
+      "Image": "hello-world",
+      "Volumes": null,
+      "WorkingDir": "",
+      "Entrypoint": null,
+      "OnBuild": null,
+      "Labels": {}
+    },
+    "NetworkSettings": {
+      "Bridge": "",
+      "SandboxID": "dd1fbcde35d210b5b504de23f582091ec77b9092b2474c3aa288e277cf5bce59",
+      "HairpinMode": false,
+      "LinkLocalIPv6Address": "",
+      "LinkLocalIPv6PrefixLen": 0,
+      "Ports": null,
+      "SandboxKey": "/var/run/docker/netns/dd1fbcde35d2",
+      "SecondaryIPAddresses": null,
+      "SecondaryIPv6Addresses": null,
+      "EndpointID": "",
+      "Gateway": "",
+      "GlobalIPv6Address": "",
+      "GlobalIPv6PrefixLen": 0,
+      "IPAddress": "",
+      "IPPrefixLen": 0,
+      "IPv6Gateway": "",
+      "MacAddress": "",
+      "Networks": {
+        "bridge": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "NetworkID": "98129d0f0aa4472bbb92f3d2ee3573a7d6c0fb4151256b626337722af80186c8",
+          "EndpointID": "",
+          "Gateway": "",
+          "IPAddress": "",
+          "IPPrefixLen": 0,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "MacAddress": ""
+        }
+      }
+    }
+  }
+]

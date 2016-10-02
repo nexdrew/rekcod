@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+var containers = process.argv.splice(3)
+if (~containers.indexOf('error')) {
+  console.log('Preparing to error out')
+  console.error('An error has occurred')
+  process.exit(127)
+}
+var dockerCommand = process.argv[2]
+var path = require('path')
+var file = path.join(__dirname, 'fixtures', dockerCommand + '-' + containers.join('-') + '.json')
+var fixture = require('fs').readFileSync(file, {
+  encoding: 'utf8'
+})
+console.log(fixture)
