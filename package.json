@@ -9,6 +9,7 @@
   "scripts": {
     "pretest": "standard",
     "test": "nyc tape test/test*.js",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "release": "standard-version"
   },
   "repository": {
@@ -27,6 +28,7 @@
   },
   "homepage": "https://github.com/nexdrew/rekcod#readme",
   "devDependencies": {
+    "coveralls": "^2.11.14",
     "nyc": "^8.3.0",
     "standard": "^8.3.0",
     "standard-version": "^2.4.0",
