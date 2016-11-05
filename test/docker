@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var containers = process.argv.splice(3)
+var containers = process.argv.slice(3)
 if (~containers.indexOf('error')) {
   console.log('Preparing to error out')
   console.error('An error has occurred')

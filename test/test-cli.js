@@ -66,15 +66,8 @@ test('cli handles docker inspect invalid json', (t) => {
 })
 
 test('cli handles docker inspect empty array', (t) => {
-  let err
-  try {
-    cli('empty')
-  } catch (e) {
-    err = e
-  }
-  t.ok(err)
-  t.ok(/Unexpected output/.test(err.stderr))
-  t.equal(err.status, 1)
+  const output = cli('empty')
+  t.equal(output, '\nNothing to translate\n\n')
   t.end()
 })
 

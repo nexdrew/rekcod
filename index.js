@@ -1,12 +1,12 @@
 'use strict'
 
-const childProcess = require('child_process')
-
-module.exports = function (containers, cb) {
+// call `docker inspect` for one or more containers
+// errback receives an array of "docker run objects"
+module.exports = function rekcod (containers, cb) {
   let cbCalled = false
   let stdout = []
   let stderr = []
-  let child = childProcess.spawn('docker', ['inspect'].concat(containers))
+  let child = require('child_process').spawn('docker', ['inspect'].concat(containers))
   child.stderr.on('data', (data) => {
     stderr.push(data)
   })
@@ -30,28 +30,40 @@ module.exports = function (containers, cb) {
       cbCalled = true
       return cb(err)
     }
-    processJson(stdout.join(''), cb)
+    try {
+      cb(null, parse(stdout.join('')))
+    } catch (err) {
+      cb(err)
+    }
   })
 }
 
-function processJson (json, cb) {
-  let array
-  try {
-    array = JSON.parse(json)
-  } catch (err) {
-    return cb(err)
-  }
-  if (!Array.isArray(array) || !array.length) {
-    return cb(new Error('Unexpected output: ' + array))
-  }
-  let runObjects = []
-  array.forEach((inspectObj) => {
-    addRunObject(runObjects, inspectObj)
+// file should be path to a file containing `docker inspect` output
+// errback receives an array of "docker run objects"
+module.exports.readFile = function readFile (file, cb) {
+  require('fs').readFile(file, { encoding: 'utf8' }, (err, fileContents) => {
+    if (err) return cb(err)
+    try {
+      cb(null, parse(fileContents))
+    } catch (err) {
+      cb(err)
+    }
   })
-  cb(null, runObjects)
 }
 
-function addRunObject (runObjects, inspectObj) {
+// json string could be an array from `docker inspect` or
+// a single inspected object; always returns an array
+const parse = module.exports.parse = function parse (jsonString) {
+  return [].concat(translate(JSON.parse(jsonString)))
+}
+
+// translate a parsed array or object into "docker run objects"
+// returns an array if given an array, otherwise returns an object
+const translate = module.exports.translate = function translate (parsed) {
+  return Array.isArray(parsed) ? parsed.map((o) => toRunObject(o)) : toRunObject(parsed)
+}
+
+function toRunObject (inspectObj) {
   let run = {}
 
   run.image = shortHash(inspectObj.Image)
@@ -62,7 +74,7 @@ function addRunObject (runObjects, inspectObj) {
 
   run.command = toRunCommand(inspectObj, run.name)
 
-  runObjects.push(run)
+  return run
 }
 
 function shortHash (hash) {
