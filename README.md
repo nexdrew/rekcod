@@ -6,11 +6,19 @@
 [![Coverage Status](https://coveralls.io/repos/github/nexdrew/rekcod/badge.svg?branch=master)](https://coveralls.io/github/nexdrew/rekcod?branch=master)
 [![Standard Version](https://img.shields.io/badge/release-standard%20version-brightgreen.svg)](https://github.com/conventional-changelog/standard-version)
 
-A simple module to reverse engineer a `docker run` command from an existing container (via `docker inspect`). Just pass in the container names or ids that you want to reverse engineer and `rekcod` will output a `docker run` command that duplicates the container.
+Reverse engineer a `docker run` command from an existing container (via `docker inspect`).
 
-This is not super robust, but it should hopefully cover most arguments needed. See [Fields Supported](#fields-supported) below.
+`rekcod` can turn any of the following into a `docker run` command:
 
-This module calls `docker inspect` directly, and the user running it should be able to as well.
+1. container ids/names (`rekcod` will call `docker inspect`)
+2. path to file containing `docker inspect` output
+3. raw JSON (pass the `docker inspect` output directly)
+
+Each `docker run` command can be used to duplicate the containers.
+
+This is not super robust, but it should cover most arguments needed. See [Fields Supported](#fields-supported) below.
+
+When passing container ids/names, this module calls `docker inspect` directly, and the user running it should be able to as well.
 
 (If you didn't notice, the dumb name for this package is just "docker" in reverse.)
 
@@ -22,18 +30,13 @@ This module calls `docker inspect` directly, and the user running it should be a
 $ npm i -g rekcod
 ```
 
-```sh
-# single container
-$ rekcod container-name
-
-docker run --name container-name ...
-```
+#### Containers
 
 ```sh
-# multiple containers
-$ rekcod another-name 6653931e39f2 happy_torvalds
+# containers as arguments
+$ rekcod container-one 6653931e39f2 happy_torvalds
 
-docker run --name another-name ...
+docker run --name container-one ...
 
 docker run --name stinky_jones ...
 
@@ -41,8 +44,46 @@ docker run --name happy_torvalds ...
 ```
 
 ```sh
-# all containers!
-$ sudo rekcod $(sudo docker ps -aq)
+# pipe in containers
+$ docker ps -aq | rekcod
+
+docker run --name container-one ...
+
+docker run --name stinky_jones ...
+
+docker run --name happy_torvalds ...
+```
+
+#### Files
+
+```sh
+# file names as arguments
+$ docker inspect container-one > one.json
+$ docker inspect 6653931e39f2 happy_torvalds > two.json
+$ rekcod one.json two.json
+
+docker run --name container-one ...
+
+docker run --name stinky_jones ...
+
+docker run --name happy_torvalds ...
+```
+
+```sh
+# pipe in file names
+$ docker inspect container-one > one.json
+$ docker inspect 6653931e39f2 happy_torvalds > two.json
+$ ls *.json | rekcod
+```
+
+#### JSON
+
+```sh
+$ docker inspect container-one 6653931e39f2 | rekcod
+
+docker run --name container-one ...
+
+docker run --name stinky_jones ...
 ```
 
 ### Module
@@ -50,6 +91,8 @@ $ sudo rekcod $(sudo docker ps -aq)
 ```
 $ npm i --save rekcod
 ```
+
+#### Containers via async `reckod()`
 
 ```js
 const rekcod = require('rekcod')
@@ -64,6 +107,34 @@ rekcod(['another-name', '6653931e39f2', 'happy_torvalds'], (err, run) => {
   run.forEach((r) => {
     console.log('\n', r.command)
   })
+})
+```
+
+#### File via async `rekcod.readFile()`
+
+```js
+const rekcod = require('rekcod')
+rekcod.readFile('docker-inspect.json', (err, run) => {
+  if (err) return console.error(err)
+  run.forEach((r) => {
+    console.log('\n', r.command)
+  })
+})
+```
+
+#### Parse a JSON string via sync `rekcod.parse()`
+
+```js
+const fs = require('fs')
+const rekcod = require('rekcod')
+let array
+try {
+  array = rekcod.parse(fs.readFileSync('docker-inspect.json', 'utf8'))
+} catch (err) {
+  return console.error(err)
+}
+array.forEach((r) => {
+  console.log('\n', r.command)
 })
 ```
 
