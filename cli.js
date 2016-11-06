@@ -58,11 +58,7 @@ function processArgs (args) {
   let filesRunning = 0
   objects.filter(Boolean).forEach((o) => {
     if (o.type === 'json') {
-      try {
-        o.run = [].concat(rekcod.translate(o.val))
-      } catch (err) {
-        handleError(err)
-      }
+      o.run = [].concat(rekcod.translate(o.val))
     } else if (o.type === 'file') {
       filesRunning++
       rekcod.readFile(o.val, (err, runObjects) => {
