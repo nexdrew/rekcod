@@ -32,10 +32,10 @@
   },
   "homepage": "https://github.com/nexdrew/rekcod#readme",
   "devDependencies": {
-    "coveralls": "^2.11.14",
-    "nyc": "^8.4.0",
-    "standard": "^8.5.0",
-    "standard-version": "^3.0.0",
-    "tape": "^4.6.2"
+    "coveralls": "^2.11.15",
+    "nyc": "^10.0.0",
+    "standard": "^8.6.0",
+    "standard-version": "^4.0.0",
+    "tape": "^4.6.3"
   }
 }
