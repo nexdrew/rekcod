@@ -110,6 +110,8 @@ function toRunCommand (inspectObj, name) {
   }
   rc = appendArray(rc, '--add-host', hostcfg.ExtraHosts)
 
+  if (hostcfg.ExtraHosts) rc = appendJoinedArray(rc, '--add-host', hostcfg.ExtraHosts, ' ')
+
   let cfg = inspectObj.Config || {}
   if (cfg.Hostname) rc = append(rc, '-h', cfg.Hostname)
   if (cfg.ExposedPorts) {
