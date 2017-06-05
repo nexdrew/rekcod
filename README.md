@@ -1,5 +1,7 @@
 # ![rekcod](logo.png)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/nexdrew/rekcod.svg)](https://greenkeeper.io/)
+
 > docker inspect → docker run
 
 [![Build Status](https://travis-ci.org/nexdrew/rekcod.svg?branch=master)](https://travis-ci.org/nexdrew/rekcod)
