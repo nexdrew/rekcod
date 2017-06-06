@@ -1,12 +1,11 @@
 # ![rekcod](logo.png)
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/nexdrew/rekcod.svg)](https://greenkeeper.io/)
-
 > docker inspect → docker run
 
 [![Build Status](https://travis-ci.org/nexdrew/rekcod.svg?branch=master)](https://travis-ci.org/nexdrew/rekcod)
 [![Coverage Status](https://coveralls.io/repos/github/nexdrew/rekcod/badge.svg?branch=master)](https://coveralls.io/github/nexdrew/rekcod?branch=master)
 [![Standard Version](https://img.shields.io/badge/release-standard%20version-brightgreen.svg)](https://github.com/conventional-changelog/standard-version)
+[![Greenkeeper badge](https://badges.greenkeeper.io/nexdrew/rekcod.svg)](https://greenkeeper.io/)
 
 Reverse engineer a `docker run` command from an existing container (via `docker inspect`).
 
