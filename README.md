@@ -164,7 +164,7 @@ array.forEach((r) => {
 | `Config.Tty`                 | `-t`             |
 | `Config.OpenStdin`           | `-i`             |
 | `Config.Entrypoint`          | `--entrypoint`   |
-| `Config.Image` || `Image`    | image name or id |
+| `Config.Image` &#124;&#124; `Image` | image name or id |
 | `Config.Cmd`                 | command and args |
 
 Prior to version 0.2.0, `rekcod` always assumed `-d` for detached mode, but it now uses that only when all stdio options are not attached. I believe this is the correct behavior, but let me know if it causes you problems. A side effect of this is that the `-d` shows up much later in the `docker run` command than it used to, but it will still be there. ❤
