@@ -33,7 +33,10 @@ const expectedOneTwo = '\n' +
   '--add-host xyz:1.2.3.4 --add-host abc:5.6.7.8 ' +
   '-h 9c397236341e ' +
   '--expose 4700/tcp --expose 4702/tcp ' +
-  '-e DB_USER=postgres -e "no_proxy=*.local, 169.254/16" ' +
+  '-e DB_USER=postgres ' +
+  '-e "no_proxy=*.local, 169.254/16" ' +
+  '-e "special_char_env_var=abc\\(\\!\\)123" ' +
+  '-e special_char_env_var2=abc\\(\\)123 ' +
   '-d ' +
   '--entrypoint "tini -- /docker-entrypoint.sh" ' +
   'project_service /etc/npme/start.sh -g' +

@@ -142,7 +142,9 @@
       "StdinOnce": false,
       "Env": [
         "DB_USER=postgres",
-        "no_proxy=*.local, 169.254/16"
+        "no_proxy=*.local, 169.254/16",
+        "special_char_env_var=abc(!)123",
+        "special_char_env_var2=abc()123"
       ],
       "Cmd": [
         "/etc/npme/start.sh",
