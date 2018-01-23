@@ -115,10 +115,7 @@ function toRunCommand (inspectObj, name) {
   if (cfg.ExposedPorts) {
     rc = appendObjectKeys(rc, '--expose', cfg.ExposedPorts)
   }
-  rc = appendArray(rc, '-e', cfg.Env, (env) => {
-    env = env.replace(/([!()])/g, '\\$1')
-    return /[\s!]/g.test(env) ? '"' + env + '"' : env
-  })
+  rc = appendArray(rc, '-e', cfg.Env, (env) => '\'' + env.replace(/'/g, '\\\'') + '\'')
   rc = appendConfigBooleans(rc, cfg)
   if (cfg.Entrypoint) rc = appendJoinedArray(rc, '--entrypoint', cfg.Entrypoint, ' ')
 
