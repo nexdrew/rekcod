@@ -36,7 +36,7 @@ const expectedOneTwo = '\n' +
   '-e \'DB_USER=postgres\' ' +
   '-e \'no_proxy=*.local, 169.254/16\' ' +
   '-e \'special_char_env_var1=abc(!)123\' ' +
-  '-e \'special_char_env_var2=abc(\\\')123\' ' +
+  '-e \'special_char_env_var2=abc(\'\\\'\')123\' ' +
   '-e \'special_char_env_var3=abc()123\' ' +
   '-d ' +
   '--entrypoint "tini -- /docker-entrypoint.sh" ' +
