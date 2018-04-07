@@ -1,4 +1,4 @@
-# ![rekcod](logo.png)
+# ![rekcod](https://raw.githubusercontent.com/nexdrew/rekcod/master/logo.png)
 
 > docker inspect → docker run
 
@@ -27,8 +27,23 @@ When passing container ids/names, this module calls `docker inspect` directly, a
 
 ### CLI
 
+If you have Node installed:
+
 ```
 $ npm i -g rekcod
+```
+
+If you only have Docker installed:
+
+```
+$ docker pull nexdrew/rekcod
+$ alias rekcod="docker run --rm -v /var/run/docker.sock:/var/run/docker.sock nexdrew/rekcod"
+```
+
+Or you can simply run this, no installation required:
+
+```
+$ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock nexdrew/rekcod <container>
 ```
 
 #### Containers
