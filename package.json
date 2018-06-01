@@ -33,7 +33,7 @@
   "homepage": "https://github.com/nexdrew/rekcod#readme",
   "devDependencies": {
     "coveralls": "^3.0.0",
-    "nyc": "^11.0.2",
+    "nyc": "^12.0.1",
     "standard": "^11.0.0",
     "standard-version": "^4.0.0",
     "tape": "^4.6.3"
