@@ -93,7 +93,7 @@ function toRunCommand (inspectObj, name) {
   if (cli.args['volume']) {
     let customVols = Array.isArray(cli.args['volume']) ? cli.args['volume'] : [cli.args['volume']]
     customVols.forEach((v) => {
-      if (hostcfg.Binds.indexOf(v) === -1) {
+      if (!hostcfg.Binds || hostcfg.Binds.indexOf(v) === -1) {
         rc = append(rc, '-v', v)
       }
     })
