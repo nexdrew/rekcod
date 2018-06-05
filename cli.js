@@ -6,7 +6,7 @@ module.exports.args = args
 
 if (args['help']) {
   console.log(`
-    Usage: ${process.argv[1]} [options] [JSON file]
+    Usage: ${process.argv[1]} [options] [JSON file(s) | container ID(s)]
 
     Options
       -i, --image IMAGE       Override the image to use in the "docker run ..." line
