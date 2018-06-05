@@ -123,7 +123,7 @@ $ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock nexdrew/rekcod -e
 #### Specify additional bind mounts
 
 ```sh
-$ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock nexdrew/rekcod -e /src:/dst <container>
+$ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock nexdrew/rekcod -v /src:/dst <container>
 ```
 
 ### Module
