@@ -21,7 +21,7 @@ function cli (args, envPath) {
   })
 }
 
-const expectedOneTwo = '\n' +
+const expectedOneTwo = '' +
   'docker run ' +
   '--name project_service_1 ' +
   '-v /var/lib/replicated:/var/lib/replicated -v /proc:/host/proc:ro ' +
@@ -41,7 +41,7 @@ const expectedOneTwo = '\n' +
   '-d ' +
   '--entrypoint "tini -- /docker-entrypoint.sh" ' +
   'project_service /etc/npme/start.sh -g' +
-  '\n\n' +
+  '\n' +
   'docker run ' +
   '--name hello ' +
   '--volumes-from admiring_brown --volumes-from silly_jang ' +
@@ -51,7 +51,7 @@ const expectedOneTwo = '\n' +
   '-a stdout -a stderr ' +
   '-t -i ' +
   'hello-world /hello' +
-  '\n\n'
+  '\n'
 
 test('cli works for docker inspect happy path', (t) => {
   const dockerRunCommands = cli('one two')
@@ -92,6 +92,64 @@ test('pipe container ids to cli', (t) => {
   })
 })
 
+test('cli handles extra env argument', (t) => {
+  let expectedExtraEnv = '' +
+    'docker run ' +
+    '--name project_service_1 ' +
+    '-v /var/lib/replicated:/var/lib/replicated -v /proc:/host/proc:ro ' +
+    '-p 4700:4700/tcp -p 4702:4702/tcp ' +
+    '--link project_postgres_1:postgres --link project_rrservice_1:project_rrservice_1 ' +
+    '-P ' +
+    '--net host ' +
+    '--restart on-failure:5 ' +
+    '--add-host xyz:1.2.3.4 --add-host abc:5.6.7.8 ' +
+    '-h 9c397236341e ' +
+    '--expose 4700/tcp --expose 4702/tcp ' +
+    '-e \'DB_USER=postgres\' ' +
+    '-e \'no_proxy=*.local, 169.254/16\' ' +
+    '-e \'special_char_env_var1=abc(!)123\' ' +
+    '-e \'special_char_env_var2=abc(\'\\\'\')123\' ' +
+    '-e \'special_char_env_var3=abc()123\' ' +
+    '-e \'foo=bar\' ' +
+    '-d ' +
+    '--entrypoint "tini -- /docker-entrypoint.sh" ' +
+    'project_service /etc/npme/start.sh -g' +
+    '\n'
+
+  const dockerRunCommands = cli('-e foo=bar one')
+  t.equal(dockerRunCommands, expectedExtraEnv)
+  t.end()
+})
+
+test('cli handles extra bind mount', (t) => {
+  let expectedExtraVolume = '' +
+    'docker run ' +
+    '--name project_service_1 ' +
+    '-v /var/lib/replicated:/var/lib/replicated -v /proc:/host/proc:ro ' +
+    '-v /src:/dst ' +
+    '-p 4700:4700/tcp -p 4702:4702/tcp ' +
+    '--link project_postgres_1:postgres --link project_rrservice_1:project_rrservice_1 ' +
+    '-P ' +
+    '--net host ' +
+    '--restart on-failure:5 ' +
+    '--add-host xyz:1.2.3.4 --add-host abc:5.6.7.8 ' +
+    '-h 9c397236341e ' +
+    '--expose 4700/tcp --expose 4702/tcp ' +
+    '-e \'DB_USER=postgres\' ' +
+    '-e \'no_proxy=*.local, 169.254/16\' ' +
+    '-e \'special_char_env_var1=abc(!)123\' ' +
+    '-e \'special_char_env_var2=abc(\'\\\'\')123\' ' +
+    '-e \'special_char_env_var3=abc()123\' ' +
+    '-d ' +
+    '--entrypoint "tini -- /docker-entrypoint.sh" ' +
+    'project_service /etc/npme/start.sh -g' +
+    '\n'
+
+  const dockerRunCommands = cli('-v /src:/dst one')
+  t.equal(dockerRunCommands, expectedExtraVolume)
+  t.end()
+})
+
 test('cli handles docker inspect invalid json', (t) => {
   let err
   try {
@@ -120,7 +178,7 @@ test('cli handles invalid json file', (t) => {
 
 test('cli handles docker inspect empty array', (t) => {
   const output = cli('empty')
-  t.equal(output, '\nNothing to translate\n\n')
+  t.equal(output, '\nNothing to translate\n')
   t.end()
 })
 

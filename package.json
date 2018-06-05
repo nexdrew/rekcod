@@ -37,5 +37,8 @@
     "standard": "^11.0.0",
     "standard-version": "^4.0.0",
     "tape": "^4.6.3"
+  },
+  "dependencies": {
+    "minimist": "^1.2.0"
   }
 }

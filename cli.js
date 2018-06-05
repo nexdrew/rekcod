@@ -1,9 +1,23 @@
 #!/usr/bin/env node
 'use strict'
 
-let args = process.argv.slice(2)
+let args = require('minimist')(process.argv.slice(2), { alias: { i: 'image', h: 'help', e: 'env', v: 'volume' } })
+module.exports.args = args
 
-if (!args.length) {
+if (args['help']) {
+  console.log(`
+    Usage: ${process.argv[1]} [options] [JSON file]
+
+    Options
+      -i, --image IMAGE       Override the image to use in the "docker run ..." line
+      -e, --env KEY=VALUE     Set additional environment variables
+                              This will overwrite existing ones with the same KEY.
+      -v, --volume SRC:DST    Add a bind mount if it doesn't exist.
+  `)
+  process.exit(0)
+}
+
+if (!args._.length) {
   // grab args from stdin
   let read = ''
   process.stdin.resume()
@@ -20,7 +34,7 @@ if (!args.length) {
     processArgs(args)
   })
 } else {
-  processArgs(args)
+  processArgs(args._)
 }
 
 function processArgs (args) {
@@ -77,11 +91,10 @@ function processArgs (args) {
           return console.log('Nothing to translate')
         }
         o.run.forEach((r) => {
-          console.log()
           console.log(r.command)
         })
       })
-      return console.log()
+      return
     }
     setTimeout(checkCompletion, 20) // check up to 50 times a second
   }

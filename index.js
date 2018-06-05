@@ -83,10 +83,22 @@ function shortHash (hash) {
 }
 
 function toRunCommand (inspectObj, name) {
+  const cli = require('./cli')
+
   let rc = append('docker run', '--name', name)
 
   let hostcfg = inspectObj.HostConfig || {}
   rc = appendArray(rc, '-v', hostcfg.Binds)
+
+  if (cli.args['volume']) {
+    let customVols = Array.isArray(cli.args['volume']) ? cli.args['volume'] : [cli.args['volume']]
+    customVols.forEach((v) => {
+      if (hostcfg.Binds.indexOf(v) === -1) {
+        rc = append(rc, '-v', v)
+      }
+    })
+  }
+
   rc = appendArray(rc, '--volumes-from', hostcfg.VolumesFrom)
   if (hostcfg.PortBindings) {
     rc = appendObjectKeys(rc, '-p', hostcfg.PortBindings, (ipPort) => {
@@ -115,15 +127,34 @@ function toRunCommand (inspectObj, name) {
   if (cfg.ExposedPorts) {
     rc = appendObjectKeys(rc, '--expose', cfg.ExposedPorts)
   }
-  rc = appendArray(rc, '-e', cfg.Env, (env) => '\'' + env.replace(/'/g, '\'\\\'\'') + '\'')
+
+  // Process the environment variables from the parsed JSON
+  let env = []
+  parseEnvArray(cfg.Env, env)
+  if (cli.args['env']) parseEnvArray(cli.args['env'], env)
+  rc = appendEnvs(rc, '-e', env)
+
   rc = appendConfigBooleans(rc, cfg)
   if (cfg.Entrypoint) rc = appendJoinedArray(rc, '--entrypoint', cfg.Entrypoint, ' ')
 
-  rc = rc + ' ' + (cfg.Image || inspectObj.Image)
+  if (cli.args.i) {
+    rc = rc + ' ' + cli.args.i
+  } else {
+    rc = rc + ' ' + (cfg.Image || inspectObj.Image)
+  }
 
   if (cfg.Cmd) rc = appendJoinedArray(rc, null, cfg.Cmd, ' ')
 
   return rc
+}
+
+function parseEnvArray (arr, dest) {
+  if (!Array.isArray(arr)) arr = [arr]
+
+  arr.forEach((e) => {
+    let split = e.split(/=(.+)/)
+    dest[split[0]] = split[1]
+  })
 }
 
 function appendConfigBooleans (str, cfg) {
@@ -148,6 +179,17 @@ function appendJoinedArray (str, key, array, join) {
   return append(str, key, array.join(join), (joined) => {
     return key ? '"' + joined + '"' : joined
   })
+}
+
+function appendEnvs (str, key, obj, transformer) {
+  let newStr = str
+  Object.keys(obj).forEach((k) => {
+    newStr = append(newStr, key, { 'key': k, val: obj[k] }, (agg) => {
+      if (typeof transformer === 'function') return transformer(agg)
+      return '\'' + agg.key + '=' + agg.val.replace(/'/g, '\'\\\'\'') + '\''
+    })
+  })
+  return newStr
 }
 
 function appendObjectKeys (str, key, obj, transformer) {
