@@ -152,7 +152,7 @@ function parseEnvArray (arr, dest) {
   if (!Array.isArray(arr)) arr = [arr]
 
   arr.forEach((e) => {
-    let split = e.split(/=(.+)/)
+    let split = e.split(/=(.*)/)
     dest[split[0]] = split[1]
   })
 }
