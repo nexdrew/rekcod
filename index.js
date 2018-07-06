@@ -112,6 +112,9 @@ function toRunCommand (inspectObj, name) {
 
   let cfg = inspectObj.Config || {}
   if (cfg.Hostname) rc = append(rc, '-h', cfg.Hostname)
+  if (cfg.Labels) {
+    rc = appendObjectKeys(rc, '--label', cfg.Labels)
+  }
   if (cfg.ExposedPorts) {
     rc = appendObjectKeys(rc, '--expose', cfg.ExposedPorts)
   }
