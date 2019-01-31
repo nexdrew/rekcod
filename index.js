@@ -82,22 +82,37 @@ function shortHash (hash) {
   return hash
 }
 
+function volumeStringsToHash (volumes) {
+  let volMap = {};
+  if (volumes) {
+    [].concat(volumes).forEach(function(vol) {
+        let volParts = vol.split(':')
+        volMap[volParts[1]] = volParts[0]
+    })
+  }
+
+  return volMap
+}
+
 function toRunCommand (inspectObj, name) {
   const cli = require('./cli')
 
   let rc = append('docker run', '--name', name)
 
   let hostcfg = inspectObj.HostConfig || {}
-  rc = appendArray(rc, '-v', hostcfg.Binds)
+  let bindsHash = volumeStringsToHash(hostcfg.Binds)
 
   if (cli.args['volume']) {
-    let customVols = Array.isArray(cli.args['volume']) ? cli.args['volume'] : [cli.args['volume']]
-    customVols.forEach((v) => {
-      if (!hostcfg.Binds || hostcfg.Binds.indexOf(v) === -1) {
-        rc = append(rc, '-v', v)
-      }
-    })
+    let customVolumes = volumeStringsToHash(cli.args['volume'])
+    bindsHash = Object.assign(bindsHash, volumeStringsToHash(cli.args['volume']))
   }
+
+  let binds = []
+  for(var bind in bindsHash) {
+    binds.push(bindsHash[bind] + ":" + bind)
+  }
+
+  rc = appendArray(rc, '-v', binds)
 
   rc = appendArray(rc, '--volumes-from', hostcfg.VolumesFrom)
   if (hostcfg.PortBindings) {
