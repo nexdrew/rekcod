@@ -24,6 +24,7 @@ function cli (args, envPath) {
 const expectedOneTwo = '\n' +
   'docker run ' +
   '--name project_service_1 ' +
+  '--runtime runc ' +
   '-v /var/lib/replicated:/var/lib/replicated -v /proc:/host/proc:ro ' +
   '-p 4700:4700/tcp -p 4702:4702/tcp ' +
   '--link project_postgres_1:postgres --link project_rrservice_1:project_rrservice_1 ' +
@@ -44,6 +45,7 @@ const expectedOneTwo = '\n' +
   '\n\n' +
   'docker run ' +
   '--name hello ' +
+  '--runtime nvidia ' +
   '--volumes-from admiring_brown --volumes-from silly_jang ' +
   '--restart no ' +
   '-h 46d567b2ef86 ' +

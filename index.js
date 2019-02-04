@@ -86,6 +86,7 @@ function toRunCommand (inspectObj, name) {
   let rc = append('docker run', '--name', name)
 
   let hostcfg = inspectObj.HostConfig || {}
+  if (hostcfg.Runtime) rc = append(rc, '--runtime', hostcfg.Runtime)
   rc = appendArray(rc, '-v', hostcfg.Binds)
   rc = appendArray(rc, '--volumes-from', hostcfg.VolumesFrom)
   if (hostcfg.PortBindings) {
