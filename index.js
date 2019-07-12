@@ -4,9 +4,9 @@
 // errback receives an array of "docker run objects"
 module.exports = function rekcod (containers, cb) {
   let cbCalled = false
-  let stdout = []
-  let stderr = []
-  let child = require('child_process').spawn('docker', ['inspect'].concat(containers))
+  const stdout = []
+  const stderr = []
+  const child = require('child_process').spawn('docker', ['inspect'].concat(containers))
   child.stderr.on('data', (data) => {
     stderr.push(data)
   })
@@ -22,7 +22,7 @@ module.exports = function rekcod (containers, cb) {
   child.on('close', (code, signal) => {
     if (cbCalled) return
     if (code !== 0) {
-      let err = new Error('docker inspect failed with code ' + code + ' from signal ' + signal)
+      const err = new Error('docker inspect failed with code ' + code + ' from signal ' + signal)
       err.code = code
       err.signal = signal
       if (stderr.length) err.stderr = stderr.join('')
@@ -64,7 +64,7 @@ const translate = module.exports.translate = function translate (parsed) {
 }
 
 function toRunObject (inspectObj) {
-  let run = {}
+  const run = {}
 
   run.image = shortHash(inspectObj.Image)
   run.id = shortHash(inspectObj.Id)
@@ -85,7 +85,7 @@ function shortHash (hash) {
 function toRunCommand (inspectObj, name) {
   let rc = append('docker run', '--name', name)
 
-  let hostcfg = inspectObj.HostConfig || {}
+  const hostcfg = inspectObj.HostConfig || {}
   if (hostcfg.Runtime) rc = append(rc, '--runtime', hostcfg.Runtime)
   rc = appendArray(rc, '-v', hostcfg.Binds)
   rc = appendArray(rc, '--volumes-from', hostcfg.VolumesFrom)
@@ -111,7 +111,7 @@ function toRunCommand (inspectObj, name) {
   }
   rc = appendArray(rc, '--add-host', hostcfg.ExtraHosts)
 
-  let cfg = inspectObj.Config || {}
+  const cfg = inspectObj.Config || {}
   if (cfg.Hostname) rc = append(rc, '-h', cfg.Hostname)
   if (cfg.ExposedPorts) {
     rc = appendObjectKeys(rc, '--expose', cfg.ExposedPorts)
@@ -128,9 +128,9 @@ function toRunCommand (inspectObj, name) {
 }
 
 function appendConfigBooleans (str, cfg) {
-  let stdin = cfg.AttachStdin === true
-  let stdout = cfg.AttachStdout === true
-  let stderr = cfg.AttachStderr === true
+  const stdin = cfg.AttachStdin === true
+  const stdout = cfg.AttachStdout === true
+  const stderr = cfg.AttachStderr === true
   str = appendBoolean(str, !stdin && !stdout && !stderr, '-d')
   str = appendBoolean(str, stdin, '-a', 'stdin')
   str = appendBoolean(str, stdout, '-a', 'stdout')
@@ -154,7 +154,7 @@ function appendJoinedArray (str, key, array, join) {
 function appendObjectKeys (str, key, obj, transformer) {
   let newStr = str
   Object.keys(obj).forEach((k) => {
-    newStr = append(newStr, key, { 'key': k, val: obj[k] }, (agg) => {
+    newStr = append(newStr, key, { key: k, val: obj[k] }, (agg) => {
       if (!agg.val) return agg.key
       let v = ''
       if (Array.isArray(agg.val)) {
