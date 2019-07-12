@@ -13,7 +13,7 @@ if (!args.length) {
   })
   process.stdin.on('end', function () {
     try {
-      args = [ JSON.parse(read) ] // either pipe json blob in from docker inspect
+      args = [JSON.parse(read)] // either pipe json blob in from docker inspect
     } catch (_) {
       args = read.match(/\S+/g) || process.exit(0) // or pipe container ids from docker ps
     }
@@ -49,7 +49,7 @@ function processArgs (args) {
       handleError(err)
       for (let i = 0, len = runObjects.length, c; i < len; i++) {
         c = containers[i]
-        c.run = [ runObjects[i] ]
+        c.run = [runObjects[i]]
         objects[c.index] = c
       }
       containersRunning = false
