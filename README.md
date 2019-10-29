@@ -37,13 +37,13 @@ If you only have Docker installed:
 
 ```
 $ docker pull nexdrew/rekcod
-$ alias rekcod="docker run --rm -v /var/run/docker.sock:/var/run/docker.sock nexdrew/rekcod"
+$ alias rekcod="docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock nexdrew/rekcod"
 ```
 
 Or you can simply run this, no installation required:
 
 ```
-$ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock nexdrew/rekcod <container>
+$ docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock nexdrew/rekcod <container>
 ```
 
 #### Containers
