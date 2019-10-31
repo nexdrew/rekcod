@@ -161,6 +161,7 @@ array.forEach((r) => {
 | docker inspect               | docker run       |
 | ---------------------------- | ---------------- |
 | `Name`                       | `--name`         |
+| `HostConfig.Privileged`      | `--privileged`   |
 | `HostConfig.Runtime`         | `--runtime`      |
 | `HostConfig.Binds`           | `-v`             |
 | `HostConfig.VolumesFrom`     | `--volumes-from` |

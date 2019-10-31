@@ -86,6 +86,14 @@ function toRunCommand (inspectObj, name) {
   let rc = append('docker run', '--name', name)
 
   const hostcfg = inspectObj.HostConfig || {}
+
+  rc = appendBoolean(rc, hostcfg.Privileged, '--privileged') // fixes #49
+  // TODO something about devices or capabilities instead of privileged?
+  // --cap-add: Add Linux capabilities
+  // --cap-drop: Drop Linux capabilities
+  // --device=[]: Allows you to run devices inside the container without the --privileged flag
+  // see https://docs.docker.com/engine/reference/run/#runtime-privilege-and-linux-capabilities
+
   if (hostcfg.Runtime) rc = append(rc, '--runtime', hostcfg.Runtime)
   rc = appendArray(rc, '-v', hostcfg.Binds)
   rc = appendArray(rc, '--volumes-from', hostcfg.VolumesFrom)
