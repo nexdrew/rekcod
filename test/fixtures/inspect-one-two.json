@@ -279,7 +279,7 @@
       "Links": null,
       "OomScoreAdj": 0,
       "PidMode": "",
-      "Privileged": false,
+      "Privileged": true,
       "PublishAllPorts": false,
       "ReadonlyRootfs": false,
       "SecurityOpt": null,

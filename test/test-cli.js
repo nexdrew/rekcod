@@ -45,6 +45,7 @@ const expectedOneTwo = '\n' +
   '\n\n' +
   'docker run ' +
   '--name hello ' +
+  '--privileged ' +
   '--runtime nvidia ' +
   '--volumes-from admiring_brown --volumes-from silly_jang ' +
   '--restart no ' +
