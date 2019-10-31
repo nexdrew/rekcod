@@ -86,6 +86,9 @@ function toRunCommand (inspectObj, name) {
   let rc = append('docker run', '--name', name)
 
   const hostcfg = inspectObj.HostConfig || {}
+  const networkMode = hostcfg.NetworkMode
+  const utsMode = hostcfg.UTSMode
+  const modes = { networkMode, utsMode }
 
   rc = appendBoolean(rc, hostcfg.Privileged, '--privileged') // fixes #49
   // TODO something about devices or capabilities instead of privileged?
@@ -97,7 +100,7 @@ function toRunCommand (inspectObj, name) {
   if (hostcfg.Runtime) rc = append(rc, '--runtime', hostcfg.Runtime)
   rc = appendArray(rc, '-v', hostcfg.Binds)
   rc = appendArray(rc, '--volumes-from', hostcfg.VolumesFrom)
-  if (hostcfg.PortBindings) {
+  if (hostcfg.PortBindings && isCompatible('-p', modes)) {
     rc = appendObjectKeys(rc, '-p', hostcfg.PortBindings, (ipPort) => {
       return ipPort.HostIp ? ipPort.HostIp + ':' + ipPort.HostPort : ipPort.HostPort
     })
@@ -108,20 +111,27 @@ function toRunCommand (inspectObj, name) {
     if (link[1] && ~link[1].lastIndexOf('/')) link[1] = link[1].substring(link[1].lastIndexOf('/') + 1)
     return link[0] + ':' + link[1]
   })
-  if (hostcfg.PublishAllPorts) rc = rc + ' -P'
-  if (hostcfg.NetworkMode && hostcfg.NetworkMode !== 'default') {
-    rc = append(rc, '--net', hostcfg.NetworkMode)
+  if (hostcfg.PublishAllPorts && isCompatible('-P', modes)) rc = rc + ' -P'
+
+  if (networkMode && networkMode !== 'default') {
+    rc = append(rc, '--net', networkMode)
+  }
+  if (utsMode && isCompatible('--uts', modes)) {
+    rc = append(rc, '--uts', utsMode)
   }
   if (hostcfg.RestartPolicy && hostcfg.RestartPolicy.Name) {
     rc = append(rc, '--restart', hostcfg.RestartPolicy, (policy) => {
       return policy.Name === 'on-failure' ? policy.Name + ':' + policy.MaximumRetryCount : policy.Name
     })
   }
-  rc = appendArray(rc, '--add-host', hostcfg.ExtraHosts)
+  if (isCompatible('--add-host', modes)) rc = appendArray(rc, '--add-host', hostcfg.ExtraHosts) // do not use in container net mode
 
   const cfg = inspectObj.Config || {}
-  if (cfg.Hostname) rc = append(rc, '-h', cfg.Hostname)
-  if (cfg.ExposedPorts) {
+
+  if (cfg.Hostname && isCompatible('-h', modes)) rc = append(rc, '-h', cfg.Hostname)
+  if (cfg.Domainname && isCompatible('--domainname', modes)) rc = append(rc, '--domainname', cfg.Domainname)
+
+  if (cfg.ExposedPorts && isCompatible('--expose', modes)) {
     rc = appendObjectKeys(rc, '--expose', cfg.ExposedPorts)
   }
   rc = appendArray(rc, '-e', cfg.Env, (env) => '\'' + env.replace(/'/g, '\'\\\'\'') + '\'')
@@ -133,6 +143,39 @@ function toRunCommand (inspectObj, name) {
   if (cfg.Cmd) rc = appendJoinedArray(rc, null, cfg.Cmd, ' ')
 
   return rc
+}
+
+// The following options are invalid in 'container' NetworkMode:
+// --add-host
+// -h, --hostname
+// --dns
+// --dns-search
+// --dns-option
+// --mac-address
+// -p, --publish
+// -P, --publish-all
+// --expose
+// The following options are invalid in 'host' UTSMode:
+// -h, --hostname
+// --domainname
+function isCompatible (flag, modes) {
+  switch (flag) {
+    case '-h':
+      return !(modes.networkMode || '').startsWith('container:') && modes.utsMode !== 'host'
+    case '--add-host':
+    case '--dns':
+    case '--dns-search':
+    case '--dns-option':
+    case '--mac-address':
+    case '-p':
+    case '-P':
+    case '--expose':
+      return !(modes.networkMode || '').startsWith('container:')
+    case '--domainname':
+      return modes.utsMode !== 'host'
+    default:
+      return true
+  }
 }
 
 function appendConfigBooleans (str, cfg) {

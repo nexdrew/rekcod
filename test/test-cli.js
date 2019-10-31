@@ -30,9 +30,9 @@ const expectedOneTwo = '\n' +
   '--link project_postgres_1:postgres --link project_rrservice_1:project_rrservice_1 ' +
   '-P ' +
   '--net host ' +
+  '--uts host ' +
   '--restart on-failure:5 ' +
   '--add-host xyz:1.2.3.4 --add-host abc:5.6.7.8 ' +
-  '-h 9c397236341e ' +
   '--expose 4700/tcp --expose 4702/tcp ' +
   '-e \'DB_USER=postgres\' ' +
   '-e \'no_proxy=*.local, 169.254/16\' ' +
@@ -50,6 +50,7 @@ const expectedOneTwo = '\n' +
   '--volumes-from admiring_brown --volumes-from silly_jang ' +
   '--restart no ' +
   '-h 46d567b2ef86 ' +
+  '--domainname rekcod.xyz ' +
   '-e \'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\' ' +
   '-a stdout -a stderr ' +
   '-t -i ' +

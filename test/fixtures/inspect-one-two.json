@@ -85,7 +85,7 @@
       "PublishAllPorts": true,
       "ReadonlyRootfs": false,
       "SecurityOpt": null,
-      "UTSMode": "",
+      "UTSMode": "host",
       "UsernsMode": "",
       "ShmSize": 67108864,
       "Runtime": "runc",
@@ -350,7 +350,7 @@
     ],
     "Config": {
       "Hostname": "46d567b2ef86",
-      "Domainname": "",
+      "Domainname": "rekcod.xyz",
       "User": "",
       "AttachStdin": false,
       "AttachStdout": true,

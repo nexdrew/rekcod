@@ -169,9 +169,11 @@ array.forEach((r) => {
 | `HostConfig.Links`           | `--link`         |
 | `HostConfig.PublishAllPorts` | `-P`             |
 | `HostConfig.NetworkMode`     | `--net`          |
+| `HostConfig.UTSMode`         | `--uts`          |
 | `HostConfig.RestartPolicy`   | `--restart`      |
 | `HostConfig.ExtraHosts`      | `--add-host`     |
 | `Config.Hostname`            | `-h`             |
+| `Config.Domainname`          | `--domainname`   |
 | `Config.ExposedPorts`        | `--expose`       |
 | `Config.Env`                 | `-e`             |
 | `Config.Attach`* !== true    | `-d`             |
