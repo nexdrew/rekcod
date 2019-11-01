@@ -41,7 +41,7 @@ const expectedOneTwo = '\n' +
   '-e \'special_char_env_var3=abc()123\' ' +
   '-d ' +
   '--entrypoint "tini -- /docker-entrypoint.sh" ' +
-  'project_service /etc/npme/start.sh -g' +
+  'project_service \'/etc/npme/start.sh\' \'-g\'' +
   '\n\n' +
   'docker run ' +
   '--name hello ' +
@@ -54,7 +54,7 @@ const expectedOneTwo = '\n' +
   '-e \'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\' ' +
   '-a stdout -a stderr ' +
   '-t -i ' +
-  'hello-world /hello' +
+  'hello-world \'sh\' \'-c\' \'(a -a) && (b -b)\'' +
   '\n\n'
 
 test('cli works for docker inspect happy path', (t) => {

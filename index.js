@@ -124,7 +124,7 @@ function toRunCommand (inspectObj, name) {
       return policy.Name === 'on-failure' ? policy.Name + ':' + policy.MaximumRetryCount : policy.Name
     })
   }
-  if (isCompatible('--add-host', modes)) rc = appendArray(rc, '--add-host', hostcfg.ExtraHosts) // do not use in container net mode
+  if (isCompatible('--add-host', modes)) rc = appendArray(rc, '--add-host', hostcfg.ExtraHosts)
 
   const cfg = inspectObj.Config || {}
 
@@ -134,7 +134,7 @@ function toRunCommand (inspectObj, name) {
   if (cfg.ExposedPorts && isCompatible('--expose', modes)) {
     rc = appendObjectKeys(rc, '--expose', cfg.ExposedPorts)
   }
-  rc = appendArray(rc, '-e', cfg.Env, (env) => '\'' + env.replace(/'/g, '\'\\\'\'') + '\'')
+  rc = appendArray(rc, '-e', cfg.Env, quote)
   rc = appendConfigBooleans(rc, cfg)
   if (cfg.Entrypoint) rc = appendJoinedArray(rc, '--entrypoint', cfg.Entrypoint, ' ')
 
@@ -178,6 +178,10 @@ function isCompatible (flag, modes) {
   }
 }
 
+function quote (str) {
+  return '\'' + str.replace(/'/g, '\'\\\'\'') + '\''
+}
+
 function appendConfigBooleans (str, cfg) {
   const stdin = cfg.AttachStdin === true
   const stdout = cfg.AttachStdout === true
@@ -197,9 +201,12 @@ function appendBoolean (str, bool, key, val) {
 
 function appendJoinedArray (str, key, array, join) {
   if (!Array.isArray(array)) return str
-  return append(str, key, array.join(join), (joined) => {
-    return key ? '"' + joined + '"' : joined
-  })
+
+  // --entrypoint "tini -- /docker-entrypoint.sh"
+  if (key) return append(str, key, array.join(join), joined => '"' + joined + '"')
+
+  // 'sh' '-c' '(a -a) && (b -b)'
+  return append(str, key, array.map(quote).join(join))
 }
 
 function appendObjectKeys (str, key, obj, transformer) {

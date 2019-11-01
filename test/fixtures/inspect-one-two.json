@@ -362,7 +362,9 @@
         "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       ],
       "Cmd": [
-        "/hello"
+        "sh",
+        "-c",
+        "(a -a) \u0026\u0026 (b -b)"
       ],
       "Image": "hello-world",
       "Volumes": null,
