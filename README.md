@@ -72,8 +72,10 @@ docker run --name happy_torvalds ...
 
 #### Files
 
+If you are using the Node CLI - i.e. you installed `rekcod` via npm or yarn - you can pass file names or file contents to `rekcod` as is, since the Node CLI will have access to files on the host file system:
+
 ```sh
-# file names as arguments
+# file names as arguments (Node CLI example)
 $ docker inspect container-one > one.json
 $ docker inspect 6653931e39f2 happy_torvalds > two.json
 $ rekcod one.json two.json
@@ -86,10 +88,27 @@ docker run --name happy_torvalds ...
 ```
 
 ```sh
-# pipe in file names
+# pipe in file names (Node CLI example)
 $ docker inspect container-one > one.json
 $ docker inspect 6653931e39f2 happy_torvalds > two.json
 $ ls *.json | rekcod
+```
+
+If you are using the Docker-only version of `rekcod` - i.e. you are using `docker run` to run the `nexdrew/rekcod` image - then note that **you'll need to bind mount files** from the host file system as volumes on the `rekcod` container in order for the containerized executable to read them:
+
+```sh
+# file names as arguments (Docker-only example)
+$ docker inspect container-one > one.json
+$ docker run --rm -i -v /var/run/docker.sock:/var/run/docker.sock -v `pwd`/one.json:/one.json nexdrew/rekcod /one.json
+
+docker run --name container-one ...
+```
+
+Otherwise, as long as you read the file from the host system, you can pipe the contents of a file to `rekcod` and either installation method will work:
+
+```sh
+# pipe in file contents (works for Node CLI or Docker-only alias)
+$ cat one.json | rekcod
 ```
 
 #### JSON
