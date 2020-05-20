@@ -135,7 +135,7 @@ function toRunCommand (inspectObj, name) {
     rc = appendObjectKeys(rc, '--expose', cfg.ExposedPorts)
   }
   if (cfg.Labels) {
-    rc = appendObjectEntries(rc, '--label', cfg.Labels, '=')
+    rc = appendObjectEntries(rc, '-l', cfg.Labels, '=')
   }
   rc = appendArray(rc, '-e', cfg.Env, quote)
   rc = appendConfigBooleans(rc, cfg)
