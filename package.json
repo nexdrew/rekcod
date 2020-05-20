@@ -10,6 +10,9 @@
     "cli.js",
     "index.js"
   ],
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
     "pretest": "standard",
     "test": "nyc tape test/test*.js",
