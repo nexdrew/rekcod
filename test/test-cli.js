@@ -63,46 +63,46 @@ const expectedOneTwo = '\n' +
   'hello-world \'sh\' \'-c\' \'(a -a) && (b -b)\'' +
   '\n\n'
 
-test('cli works for docker inspect happy path', (t) => {
+test('cli works for docker inspect happy path', t => {
   const dockerRunCommands = cli('one two')
-  t.equal(dockerRunCommands, expectedOneTwo)
+  t.strictEqual(dockerRunCommands, expectedOneTwo)
   t.end()
 })
 
-test('cli accepts file name arg', (t) => {
+test('cli accepts file name arg', t => {
   const dockerRunCommands = cli(oneTwoFixture)
-  t.equal(dockerRunCommands, expectedOneTwo)
+  t.strictEqual(dockerRunCommands, expectedOneTwo)
   t.end()
 })
 
-test('pipe json to cli', (t) => {
+test('pipe json to cli', t => {
   childProcess.exec(`cat ${oneTwoFixture} | ${cliPath}`, (err, stdout, stderr) => {
     t.notOk(err)
-    t.equal(stdout, expectedOneTwo)
+    t.strictEqual(stdout, expectedOneTwo)
     t.end()
   })
 })
 
-test('pipe file name to cli', (t) => {
+test('pipe file name to cli', t => {
   childProcess.exec(`ls ${oneTwoFixture} | ${cliPath}`, (err, stdout, stderr) => {
     t.notOk(err)
-    t.equal(stdout, expectedOneTwo)
+    t.strictEqual(stdout, expectedOneTwo)
     t.end()
   })
 })
 
-test('pipe container ids to cli', (t) => {
+test('pipe container ids to cli', t => {
   childProcess.exec(`echo 'one two' | ${cliPath}`, {
     env: mockedDockerEnv(),
     encoding: 'utf8'
   }, (err, stdout, stderr) => {
     t.notOk(err)
-    t.equal(stdout, expectedOneTwo)
+    t.strictEqual(stdout, expectedOneTwo)
     t.end()
   })
 })
 
-test('cli handles docker inspect invalid json', (t) => {
+test('cli handles docker inspect invalid json', t => {
   let err
   try {
     cli('invalid')
@@ -111,11 +111,11 @@ test('cli handles docker inspect invalid json', (t) => {
   }
   t.ok(err)
   t.ok(/Unexpected token d/.test(err.stderr))
-  t.equal(err.status, 1)
+  t.strictEqual(err.status, 1)
   t.end()
 })
 
-test('cli handles invalid json file', (t) => {
+test('cli handles invalid json file', t => {
   let err
   try {
     cli(path.resolve(__dirname, 'fixtures', 'inspect-invalid.json'))
@@ -124,17 +124,17 @@ test('cli handles invalid json file', (t) => {
   }
   t.ok(err)
   t.ok(/Unexpected token d/.test(err.stderr))
-  t.equal(err.status, 1)
+  t.strictEqual(err.status, 1)
   t.end()
 })
 
-test('cli handles docker inspect empty array', (t) => {
+test('cli handles docker inspect empty array', t => {
   const output = cli('empty')
-  t.equal(output, '\nNothing to translate\n\n')
+  t.strictEqual(output, '\nNothing to translate\n\n')
   t.end()
 })
 
-test('cli handles docker inspect error', (t) => {
+test('cli handles docker inspect error', t => {
   let err
   try {
     cli('error')
@@ -142,13 +142,13 @@ test('cli handles docker inspect error', (t) => {
     err = e
   }
   t.ok(err)
-  t.equal(err.stdout, 'Preparing to error out\n\n')
-  t.equal(err.stderr, 'An error has occurred\n\n')
-  t.equal(err.status, 127)
+  t.strictEqual(err.stdout, 'Preparing to error out\n\n')
+  t.strictEqual(err.stderr, 'An error has occurred\n\n')
+  t.strictEqual(err.status, 127)
   t.end()
 })
 
-test('cli handles no docker', (t) => {
+test('cli handles no docker', t => {
   let err
   try {
     cli('dne', '/dne')
@@ -157,6 +157,6 @@ test('cli handles no docker', (t) => {
   }
   t.ok(err)
   t.ok(/spawn docker ENOENT/.test(err.stderr))
-  t.equal(err.status, 1)
+  t.strictEqual(err.status, 1)
   t.end()
 })
