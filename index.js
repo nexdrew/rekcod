@@ -229,19 +229,19 @@ function appendObjectKeys (str, key, obj, transformer) {
   return newStr
 }
 
-function appendObjectEntries(str, key, obj, joiner) {
-  let newStr = str;
+function appendObjectEntries (str, key, obj, joiner) {
+  let newStr = str
   Array.from(Object.entries(obj)).forEach(([k, v]) => {
     newStr = append(
       newStr,
       key,
       { key: k, val: v },
-      typeof joiner === "function"
+      typeof joiner === 'function'
         ? joiner
         : (agg) => `${quote(agg.key)}${joiner}${quote(agg.val)}`
-    );
-  });
-  return newStr;
+    )
+  })
+  return newStr
 }
 
 function appendArray (str, key, array, transformer) {
