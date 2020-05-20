@@ -7,13 +7,13 @@ module.exports = function rekcod (containers, cb) {
   const stdout = []
   const stderr = []
   const child = require('child_process').spawn('docker', ['inspect'].concat(containers))
-  child.stderr.on('data', (data) => {
+  child.stderr.on('data', data => {
     stderr.push(data)
   })
-  child.stdout.on('data', (data) => {
+  child.stdout.on('data', data => {
     stdout.push(data)
   })
-  child.on('error', (err) => {
+  child.on('error', err => {
     if (!cbCalled) {
       cbCalled = true
       cb(err)
@@ -60,7 +60,7 @@ const parse = module.exports.parse = function parse (jsonString) {
 // translate a parsed array or object into "docker run objects"
 // returns an array if given an array, otherwise returns an object
 const translate = module.exports.translate = function translate (parsed) {
-  return Array.isArray(parsed) ? parsed.map((o) => toRunObject(o)) : toRunObject(parsed)
+  return Array.isArray(parsed) ? parsed.map(o => toRunObject(o)) : toRunObject(parsed)
 }
 
 function toRunObject (inspectObj) {
@@ -101,11 +101,11 @@ function toRunCommand (inspectObj, name) {
   rc = appendArray(rc, '-v', hostcfg.Binds)
   rc = appendArray(rc, '--volumes-from', hostcfg.VolumesFrom)
   if (hostcfg.PortBindings && isCompatible('-p', modes)) {
-    rc = appendObjectKeys(rc, '-p', hostcfg.PortBindings, (ipPort) => {
+    rc = appendObjectKeys(rc, '-p', hostcfg.PortBindings, ipPort => {
       return ipPort.HostIp ? ipPort.HostIp + ':' + ipPort.HostPort : ipPort.HostPort
     })
   }
-  rc = appendArray(rc, '--link', hostcfg.Links, (link) => {
+  rc = appendArray(rc, '--link', hostcfg.Links, link => {
     link = link.split(':')
     if (link[0] && ~link[0].lastIndexOf('/')) link[0] = link[0].substring(link[0].lastIndexOf('/') + 1)
     if (link[1] && ~link[1].lastIndexOf('/')) link[1] = link[1].substring(link[1].lastIndexOf('/') + 1)
@@ -120,7 +120,7 @@ function toRunCommand (inspectObj, name) {
     rc = append(rc, '--uts', utsMode)
   }
   if (hostcfg.RestartPolicy && hostcfg.RestartPolicy.Name) {
-    rc = append(rc, '--restart', hostcfg.RestartPolicy, (policy) => {
+    rc = append(rc, '--restart', hostcfg.RestartPolicy, policy => {
       return policy.Name === 'on-failure' ? policy.Name + ':' + policy.MaximumRetryCount : policy.Name
     })
   }
@@ -135,7 +135,8 @@ function toRunCommand (inspectObj, name) {
     rc = appendObjectKeys(rc, '--expose', cfg.ExposedPorts)
   }
   if (cfg.Labels) {
-    rc = appendObjectEntries(rc, '-l', cfg.Labels, '=')
+    // rc = appendObjectEntries(rc, '-l', cfg.Labels, '=')
+    rc = appendObjectKeys(rc, '-l', cfg.Labels)
   }
   rc = appendArray(rc, '-e', cfg.Env, quote)
   rc = appendConfigBooleans(rc, cfg)
@@ -214,40 +215,41 @@ function appendJoinedArray (str, key, array, join) {
 
 function appendObjectKeys (str, key, obj, transformer) {
   let newStr = str
-  Object.keys(obj).forEach((k) => {
-    newStr = append(newStr, key, { key: k, val: obj[k] }, (agg) => {
+  Object.keys(obj).forEach(k => {
+    newStr = append(newStr, key, { key: k, val: obj[k] }, agg => {
       if (!agg.val) return agg.key
       let v = ''
       if (Array.isArray(agg.val)) {
-        agg.val.forEach((valObj) => {
+        // used for PortBindings
+        agg.val.forEach(valObj => {
           v = (typeof transformer === 'function' ? transformer(valObj) : valObj)
         })
+      } else if (typeof agg.val === 'string') {
+        // used for Labels
+        return agg.key + '=' + quote(agg.val)
       }
+      // prefix used for PortBindings, key-only used for ExposedPorts
       return (v ? v + ':' : '') + agg.key
     })
   })
   return newStr
 }
 
-function appendObjectEntries (str, key, obj, joiner) {
-  let newStr = str
-  Array.from(Object.entries(obj)).forEach(([k, v]) => {
-    newStr = append(
-      newStr,
-      key,
-      { key: k, val: v },
-      typeof joiner === 'function'
-        ? joiner
-        : (agg) => quote(`${agg.key}${joiner}${agg.val}`)
-    )
-  })
-  return newStr
-}
+// function appendObjectEntries (str, key, obj, joiner) {
+//   let newStr = str
+//   Object.entries(obj).forEach(([k, v]) => {
+//     newStr = append(newStr, key, { key: k, val: v }, typeof joiner === 'function'
+//       ? joiner
+//       : agg => `${agg.key}${joiner}${quote(agg.val)}`
+//     )
+//   })
+//   return newStr
+// }
 
 function appendArray (str, key, array, transformer) {
   if (!Array.isArray(array)) return str
   let newStr = str
-  array.forEach((v) => {
+  array.forEach(v => {
     newStr = append(newStr, key, v, transformer)
   })
   return newStr
