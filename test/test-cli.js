@@ -34,6 +34,12 @@ const expectedOneTwo = '\n' +
   '--restart on-failure:5 ' +
   '--add-host xyz:1.2.3.4 --add-host abc:5.6.7.8 ' +
   '--expose 4700/tcp --expose 4702/tcp ' +
+  '-l \'com.docker.compose.config-hash=9f94e0df059d6b68fa0e306b9ee555b4fb9d6dbdb3982a0b0f6c7adca2945f26\' ' +
+  '-l \'com.docker.compose.container-number=1\' ' +
+  '-l \'com.docker.compose.oneoff=False\' ' +
+  '-l \'com.docker.compose.project=project\' ' +
+  '-l \'com.docker.compose.service=service\' ' +
+  '-l \'com.docker.compose.version=1.8.0\' ' +
   '-e \'DB_USER=postgres\' ' +
   '-e \'no_proxy=*.local, 169.254/16\' ' +
   '-e \'special_char_env_var1=abc(!)123\' ' +
