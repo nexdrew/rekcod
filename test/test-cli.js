@@ -33,6 +33,16 @@ const expectedOneTwo = '\n' +
   '--uts host ' +
   '--restart on-failure:5 ' +
   '--add-host xyz:1.2.3.4 --add-host abc:5.6.7.8 ' +
+  '--security-opt \'label=level:s0:c100,c200\' ' +
+  '--security-opt \'label=user:USER\' ' +
+  '--security-opt \'label=role:ROLE\' ' +
+  '--security-opt \'label=type:TYPE\' ' +
+  '--security-opt \'label=level:LEVEL\' ' +
+  '--security-opt \'label=disable\' ' +
+  '--security-opt \'apparmor=docker-default\' ' +
+  '--security-opt \'no-new-privileges:true\' ' +
+  '--security-opt \'seccomp=unconfined\' ' +
+  '--security-opt \'label=type:svirt_apache_t\' ' +
   '--expose 4700/tcp --expose 4702/tcp ' +
   '-l com.docker.compose.config-hash=\'9f94e0df059d6b68fa0e306b9ee555b4fb9d6dbdb3982a0b0f6c7adca2945f26\' ' +
   '-l com.docker.compose.container-number=\'1\' ' +
