@@ -33,6 +33,7 @@ const expectedOneTwo = '\n' +
   '--uts host ' +
   '--restart on-failure:5 ' +
   '--add-host xyz:1.2.3.4 --add-host abc:5.6.7.8 ' +
+  '--pid container:9ca8ac5c5b829c5c0a65a290b7c4eb74e9ba36f69344ee11392841fd41d5e3de ' +
   '--security-opt \'label=level:s0:c100,c200\' ' +
   '--security-opt \'label=user:USER\' ' +
   '--security-opt \'label=role:ROLE\' ' +

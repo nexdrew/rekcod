@@ -80,7 +80,7 @@
         "/project_rrservice_1:/project_service_1/project_rrservice_1"
       ],
       "OomScoreAdj": 0,
-      "PidMode": "",
+      "PidMode": "container:9ca8ac5c5b829c5c0a65a290b7c4eb74e9ba36f69344ee11392841fd41d5e3de",
       "Privileged": false,
       "PublishAllPorts": true,
       "ReadonlyRootfs": false,
