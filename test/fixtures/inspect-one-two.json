@@ -80,11 +80,22 @@
         "/project_rrservice_1:/project_service_1/project_rrservice_1"
       ],
       "OomScoreAdj": 0,
-      "PidMode": "",
+      "PidMode": "container:9ca8ac5c5b829c5c0a65a290b7c4eb74e9ba36f69344ee11392841fd41d5e3de",
       "Privileged": false,
       "PublishAllPorts": true,
       "ReadonlyRootfs": false,
-      "SecurityOpt": null,
+      "SecurityOpt": [
+        "label=level:s0:c100,c200",
+        "label=user:USER",
+        "label=role:ROLE",
+        "label=type:TYPE",
+        "label=level:LEVEL",
+        "label=disable",
+        "apparmor=docker-default",
+        "no-new-privileges:true",
+        "seccomp=unconfined",
+        "label=type:svirt_apache_t"
+      ],
       "UTSMode": "host",
       "UsernsMode": "",
       "ShmSize": 67108864,
@@ -273,7 +284,11 @@
       "DnsOptions": [],
       "DnsSearch": [],
       "ExtraHosts": null,
-      "GroupAdd": null,
+      "GroupAdd": [
+        "audio",
+        "nogroup",
+        "777"
+      ],
       "IpcMode": "",
       "Cgroup": "",
       "Links": null,

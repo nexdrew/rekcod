@@ -125,6 +125,9 @@ function toRunCommand (inspectObj, name) {
     })
   }
   if (isCompatible('--add-host', modes)) rc = appendArray(rc, '--add-host', hostcfg.ExtraHosts)
+  rc = appendArray(rc, '--group-add', hostcfg.GroupAdd)
+  if (hostcfg.PidMode) rc = append(rc, '--pid', hostcfg.PidMode)
+  rc = appendArray(rc, '--security-opt', hostcfg.SecurityOpt, quote)
 
   const cfg = inspectObj.Config || {}
 
