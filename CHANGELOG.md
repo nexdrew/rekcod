@@ -1,6 +1,17 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [3.0.0](https://github.com/nexdrew/rekcod/compare/v2.2.0...v3.0.0) (2020-05-21)
+
+
+### Features
+
+* add --group-add, --pid, --security-opt ([#66](https://github.com/nexdrew/rekcod/issues/66)) ([d8e67d2](https://github.com/nexdrew/rekcod/commit/d8e67d2ff66f61b47523939c75f05e957b35eb6b))
+* add support for --privileged flag ([#52](https://github.com/nexdrew/rekcod/issues/52)) ([95b6dd4](https://github.com/nexdrew/rekcod/commit/95b6dd4364faad5252ee2d9583daf7f63155f5aa))
+* add support for labels ([#58](https://github.com/nexdrew/rekcod/issues/58)) ([f2fc146](https://github.com/nexdrew/rekcod/commit/f2fc146bbc54138f46322d51930c8c4137a80cc1))
+* handle special characters in cmd ([#54](https://github.com/nexdrew/rekcod/issues/54)) ([dded29a](https://github.com/nexdrew/rekcod/commit/dded29a06a46cb5388b0bc7d1d8fc17704444971))
+* support --uts and --domainname, smarter hostname handling ([#53](https://github.com/nexdrew/rekcod/issues/53)) ([03cebfe](https://github.com/nexdrew/rekcod/commit/03cebfec44e301658ca492d5d08c81ec0bceb3bf))
 
 <a name="2.2.0"></a>
 # [2.2.0](https://github.com/nexdrew/rekcod/compare/v2.1.1...v2.2.0) (2019-02-04)

@@ -1,6 +1,6 @@
 {
   "name": "rekcod",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "description": "docker inspect → docker run",
   "main": "index.js",
   "bin": {
