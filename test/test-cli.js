@@ -66,6 +66,7 @@ const expectedOneTwo = '\n' +
   '--runtime nvidia ' +
   '--volumes-from admiring_brown --volumes-from silly_jang ' +
   '--restart no ' +
+  '--group-add audio --group-add nogroup --group-add 777 ' +
   '-h 46d567b2ef86 ' +
   '--domainname rekcod.xyz ' +
   '-e \'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\' ' +

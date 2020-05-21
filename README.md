@@ -194,6 +194,7 @@ array.forEach((r) => {
 | `HostConfig.UTSMode`         | `--uts`          |
 | `HostConfig.RestartPolicy`   | `--restart`      |
 | `HostConfig.ExtraHosts`      | `--add-host`     |
+| `HostConfig.GroupAdd`        | `--group-add`    |
 | `HostConfig.PidMode`         | `--pid`          |
 | `HostConfig.SecurityOpt`     | `--security-opt` |
 | `Config.Hostname`            | `-h`             |

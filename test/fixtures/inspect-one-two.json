@@ -284,7 +284,11 @@
       "DnsOptions": [],
       "DnsSearch": [],
       "ExtraHosts": null,
-      "GroupAdd": null,
+      "GroupAdd": [
+        "audio",
+        "nogroup",
+        "777"
+      ],
       "IpcMode": "",
       "Cgroup": "",
       "Links": null,
